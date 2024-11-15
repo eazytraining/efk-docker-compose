@@ -58,6 +58,20 @@ services:
           driver: fluentd
           options:
             tag: efk.fluent-bit
+    apache:
+        image: httpd:latest
+        restart: on-failure
+        ports:
+          - 8080:80                    # Expose Apache on port 8080
+        networks:
+          - local
+        depends_on:
+          - fluent-bit
+        logging:
+          driver: fluentd
+          options:
+            tag: efk.apache
+            
 networks:
   local:
     driver: bridge
